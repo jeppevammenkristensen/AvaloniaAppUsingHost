@@ -50,7 +50,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         _locator = locator;
         Screens = [];
-        ViewModelTypes = [new ViewModelType("FirstViewModel", l => l.GetRequiredService<FirstControlViewModel>())];
+        ViewModelTypes = [new ViewModelType("FirstViewModel", l => l.GetRequiredService<FirstControlViewModel>()), new ViewModelType("SecondViewModel", l => l.GetRequiredService<SecondControlViewModel>())];
         SelectedViewModelType = ViewModelTypes[0];
     }
 

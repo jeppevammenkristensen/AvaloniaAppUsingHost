@@ -27,4 +27,11 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\SecondControl.axaml.cs">
+        <DependentUpon>SecondControlViewModel.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

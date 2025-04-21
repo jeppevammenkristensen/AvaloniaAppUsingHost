@@ -70,8 +70,11 @@ public partial class App : Application
                     .AddTransient<ViewLocator>()
                     .AddSingleton<MainWindowViewModel>()
                     .AddTransient<FirstControlViewModel>()
+                    .AddTransient<SecondControlViewModel>()
                     .AddView<MainWindowViewModel, MainWindow>() // Note this might not be necessary
-                    .AddView<FirstControlViewModel, FirstControl>();
+                    .AddView<FirstControlViewModel, FirstControl>()
+                    .AddView<SecondControlViewModel, SecondControl>()
+                    ;
             });
     }
     
