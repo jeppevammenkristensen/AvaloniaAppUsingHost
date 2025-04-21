@@ -1,0 +1,65 @@
+# Rider project files
+.idea/
+.idea_modules/
+
+# VS Code metadata
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+logs/
+
+# Build directories
+bin/
+obj/
+out/
+
+# NuGet packages
+# Uncomment if you have a NuGet package folder, and you want to ignore it:
+# packages/
+# Alternatively:
+**/packages/*
+
+# Dotnet artifacts
+*.dll
+*.exe
+*.runtimeconfig.dev.json
+*.deps.json
+*.runtimeconfig.json
+*.pdb
+
+# Configuration files
+appsettings*.json
+launchSettings.json
+
+# Temporary and OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+~$*
+
+# Global JetBrains IDE files
+.idea/
+*.iml
+.idea_modules/
+
+# Rider-specific .NET debugging folder
+/.idea/recommendations/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+*.coveragejson
+.reports
+
+# Rider compile output
+.idea_modules/.*
+atabaseonly simplifies your upcoming..]]

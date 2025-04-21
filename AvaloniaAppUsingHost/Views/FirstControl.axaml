@@ -1,0 +1,13 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:AvaloniaAppUsingHost.ViewModels"
+             x:DataType="viewModel:FirstControlViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaAppUsingHost.Views.FirstControl">
+    <StackPanel>
+        <TextBlock Text="{Binding Title}"></TextBlock>
+        <CheckBox IsChecked="{Binding PreventClose}"></CheckBox>
+    </StackPanel>
+</UserControl>
