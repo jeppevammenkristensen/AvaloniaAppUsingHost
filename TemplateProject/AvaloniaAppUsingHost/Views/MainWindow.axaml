@@ -8,7 +8,7 @@
         x:DataType="vm:MainWindowViewModel"
         x:Name="Main"
         Icon="/Assets/avalonia-logo.ico"
-        Title="AvaloniaAppUsingHost" IsEnabled="{Binding Loaded}">
+        Title="{Binding Title}" IsEnabled="{Binding Loaded}">
 
     <Window.Resources>
 

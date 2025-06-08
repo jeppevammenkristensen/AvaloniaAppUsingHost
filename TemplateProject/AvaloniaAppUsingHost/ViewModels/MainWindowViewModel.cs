@@ -7,19 +7,23 @@ using AvaloniaAppUsingHost.Infrastructure.LongRunning;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Configuration;
 
 namespace AvaloniaAppUsingHost.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDataMessage>, IRecipient<StatusDataMessage>
 {
     private readonly IServiceLocator _locator;
+    private readonly IConfiguration _configuration;
 
 
-    public MainWindowViewModel(IServiceLocator locator)
+    public MainWindowViewModel(IServiceLocator locator, IConfiguration configuration)
     {
         _locator = locator;
+        _configuration = configuration;
         Screens = [];
         Status = string.Empty;
+        Title = _configuration["Title"] ?? "No title defined";
     }
 
 
@@ -36,6 +40,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     public partial double CurrentProgress { get; set; }
 
     [ObservableProperty] public partial bool Loaded { get; set; }
+    [ObservableProperty] public partial string Title { get; set; }
 
     public void Receive(ProgressDataMessage message)
     {
@@ -56,6 +61,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         var longRunningTask = new DummyTask(Messenger);
         await longRunningTask.ExecuteTask(token);
         Loaded = true;
+        await LaunchFirstCommand.ExecuteAsync(null);
     }
 
 

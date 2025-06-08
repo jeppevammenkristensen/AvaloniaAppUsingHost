@@ -47,6 +47,8 @@ public class App : Application
                 };
             }
 
+            // This is where DataTemplates will be created based on the
+            // views and view models registered in RegisterViews
             DataTemplates.Add(GlobalHost.Services.GetRequiredService<ViewLocator>());
 
             base.OnFrameworkInitializationCompleted();
@@ -63,14 +65,27 @@ public class App : Application
     private IHostBuilder CreateHostBuilder()
     {
         return Host.CreateDefaultBuilder(Environment.GetCommandLineArgs())
-            .ConfigureServices((hostContext, services) =>
+            .ConfigureServices((ctx, services) =>
             {
+                // Example of using the context
+                // ctx.Configuration["SomeValue"];
+                
                 services
                     .AddTransient<IServiceLocator, ServiceCollectionServiceLocator>()
                     .AddTransient<ViewLocator>();
 
+                // Registers the view models and their corresponding views
+                // Here the ViewModels are registred and then coupled with their 
+                // corresponding views so that they can be used in the application
                 RegisterViews(services);
+                RegisterOtherDependencies(services);
             });
+    }
+
+    private void RegisterOtherDependencies(IServiceCollection services)
+    {
+        // Register other dependencies here. TimeProvider added as an example
+        services.AddSingleton<TimeProvider>(_ => TimeProvider.System);
     }
 
     /// <summary>
@@ -79,6 +94,10 @@ public class App : Application
     /// <param name="collection"></param>
     private void RegisterViews(IServiceCollection collection)
     {
+        // Since we hook up the MainWindow and use IOC to retrieve the MainWindowViewModel
+        // it would technically be enough to only register the MainWindowViewModel with
+        // collection.AddSingleton<MainWindowViewModel>(); 
+        
         collection
             .AddViewModelAndRegisterView<MainWindowViewModel, MainWindow>(ViewModelScope.Singleton)
             .AddViewModelAndRegisterView<FirstControlViewModel, FirstControl>(ViewModelScope.Transient);

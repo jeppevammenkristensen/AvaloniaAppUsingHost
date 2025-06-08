@@ -28,4 +28,13 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5"/>
         <PackageReference Include="Xaml.Behaviors.Avalonia" Version="11.3.0.10"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="appsettings.Development.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>
