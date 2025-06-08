@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AvaloniaAppUsingHost.Infrastructure;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 
@@ -13,7 +14,6 @@ public partial class FirstControlViewModel(ILogger<FirstControlViewModel> logger
     {
         CanClose = !value;
     }
-
 
     public override Task OnActivatedAsync()
     {

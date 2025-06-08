@@ -15,23 +15,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.7"/>
-        <PackageReference Include="Avalonia.Desktop" Version="11.2.7"/>
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.7"/>
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.7"/>
+        <PackageReference Include="Avalonia" Version="11.3.1"/>
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.1"/>
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.1"/>
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.1"/>
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.2.7">
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.1">
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Views\SecondControl.axaml.cs">
-        <DependentUpon>SecondControlViewModel.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5"/>
+        <PackageReference Include="Xaml.Behaviors.Avalonia" Version="11.3.0.10"/>
     </ItemGroup>
 </Project>

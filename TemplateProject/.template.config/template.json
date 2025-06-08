@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Jeppe Roi Kristensen",
+  "classifications": [ "Avalonia", "Desktop", "MVVM" ],
+  "identity": "AvaloniaAppUsingHost.Template",
+  "name": "Avalonia App Using Host",
+  "description": "This template create a new Avalonia application with a Screen and using Host",
+  "shortName": "avalonia-host",
+  "sourceName": "AvaloniaAppUsingHost",
+  "guids": [ "4c5218c3-567b-478a-8c01-e91450c9347d" ],
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sources": [
+    {
+      "modifiers" : [
+        {
+          "exclude": [ ".vs",".vscode", "bin", "obj", "packages" ],
+          "include": [ "**/*" ]
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    {
+      "path": "AvaloniaAppUsingHost.sln"
+    }
+  ]
+
+  
+}

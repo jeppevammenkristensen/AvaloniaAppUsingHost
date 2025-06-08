@@ -2,9 +2,9 @@
 
 namespace AvaloniaAppUsingHost.Views;
 
-public partial class SecondControl : UserControl
+public partial class FirstControl : UserControl
 {
-    public SecondControl()
+    public FirstControl()
     {
         InitializeComponent();
     }

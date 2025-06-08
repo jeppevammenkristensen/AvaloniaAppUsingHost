@@ -1,8 +1,8 @@
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
-using System.Linq;
 using Avalonia.Markup.Xaml;
 using AvaloniaAppUsingHost.Infrastructure;
 using AvaloniaAppUsingHost.ViewModels;
@@ -13,12 +13,12 @@ using Microsoft.Extensions.Logging;
 
 namespace AvaloniaAppUsingHost;
 
-public partial class App : Application
+public class App : Application
 {
     private IHost? _host;
 
     internal IHost GlobalHost => _host ?? throw new InvalidOperationException("Host has not been initialized");
-    
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -29,7 +29,7 @@ public partial class App : Application
         try
         {
             _host = CreateHostBuilder().Build();
-            
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -46,7 +46,7 @@ public partial class App : Application
                     _host = null;
                 };
             }
-            
+
             DataTemplates.Add(GlobalHost.Services.GetRequiredService<ViewLocator>());
 
             base.OnFrameworkInitializationCompleted();
@@ -54,9 +54,9 @@ public partial class App : Application
         }
         catch (Exception e)
         {
-            if (_host is {})
-                GlobalHost.Services.GetRequiredService<ILogger<App>>().LogCritical(e, "Failed to start the application");
-            
+            if (_host is not null)
+                GlobalHost.Services.GetRequiredService<ILogger<App>>()
+                    .LogCritical(e, "Failed to start the application");
         }
     }
 
@@ -67,17 +67,23 @@ public partial class App : Application
             {
                 services
                     .AddTransient<IServiceLocator, ServiceCollectionServiceLocator>()
-                    .AddTransient<ViewLocator>()
-                    .AddSingleton<MainWindowViewModel>()
-                    .AddTransient<FirstControlViewModel>()
-                    .AddTransient<SecondControlViewModel>()
-                    .AddView<MainWindowViewModel, MainWindow>() // Note this might not be necessary
-                    .AddView<FirstControlViewModel, FirstControl>()
-                    .AddView<SecondControlViewModel, SecondControl>()
-                    ;
+                    .AddTransient<ViewLocator>();
+
+                RegisterViews(services);
             });
     }
-    
+
+    /// <summary>
+    ///     This will register the viewModels and also there corresponding relationship with their view
+    /// </summary>
+    /// <param name="collection"></param>
+    private void RegisterViews(IServiceCollection collection)
+    {
+        collection
+            .AddViewModelAndRegisterView<MainWindowViewModel, MainWindow>(ViewModelScope.Singleton)
+            .AddViewModelAndRegisterView<FirstControlViewModel, FirstControl>(ViewModelScope.Transient);
+    }
+
     private void DisableAvaloniaDataAnnotationValidation()
     {
         // Get an array of plugins to remove
@@ -85,9 +91,6 @@ public partial class App : Application
             BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
 
         // remove each entry found
-        foreach (var plugin in dataValidationPluginsToRemove)
-        {
-            BindingPlugins.DataValidators.Remove(plugin);
-        }
+        foreach (var plugin in dataValidationPluginsToRemove) BindingPlugins.DataValidators.Remove(plugin);
     }
 }

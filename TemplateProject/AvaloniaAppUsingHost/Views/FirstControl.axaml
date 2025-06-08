@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaAppUsingHost.Views.FirstControl">
     <StackPanel>
-        <TextBlock Text="{Binding Title}"></TextBlock>
-        <CheckBox IsChecked="{Binding PreventClose}"></CheckBox>
+        <TextBlock Text="{Binding Title}" />
+        <CheckBox IsChecked="{Binding PreventClose}" />
     </StackPanel>
 </UserControl>

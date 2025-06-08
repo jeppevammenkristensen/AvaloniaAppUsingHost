@@ -5,6 +5,8 @@
 # VS Code metadata
 .vscode/
 
+.vs/
+
 # User-specific files
 *.suo
 *.user
