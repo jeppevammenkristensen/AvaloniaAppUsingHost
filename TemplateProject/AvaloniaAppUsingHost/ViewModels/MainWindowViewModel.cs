@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using AvaloniaAppUsingHost.Infrastructure;
 using AvaloniaAppUsingHost.Infrastructure.LongRunning;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,19 +13,17 @@ using Microsoft.Extensions.Configuration;
 
 namespace AvaloniaAppUsingHost.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDataMessage>, IRecipient<StatusDataMessage>
+public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDataMessage>, IRecipient<StatusValueDataMessage>
 {
     private readonly IServiceLocator _locator;
-    private readonly IConfiguration _configuration;
 
 
     public MainWindowViewModel(IServiceLocator locator, IConfiguration configuration)
     {
         _locator = locator;
-        _configuration = configuration;
         Screens = [];
         Status = string.Empty;
-        Title = _configuration["Title"] ?? "No title defined";
+        Title = configuration["Title"] ?? "No title defined";
     }
 
 
@@ -41,15 +41,21 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
 
     [ObservableProperty] public partial bool Loaded { get; set; }
     [ObservableProperty] public partial string Title { get; set; }
+    [NotifyPropertyChangedFor(nameof(DisplayInfo))] [NotifyPropertyChangedFor(nameof(DisplayInfoError))] [ObservableProperty] public partial StatusType StatusType { get; set; }
+
+    public bool DisplayInfo => StatusType == StatusType.Info;
+    public bool DisplayInfoError => StatusType == StatusType.Error;
 
     public void Receive(ProgressDataMessage message)
     {
         CurrentProgress = message.Value;
     }
 
-    public void Receive(StatusDataMessage message)
+    public void Receive(StatusValueDataMessage message)
     {
-        Status = message.Value;
+        Status = message.Value.Value;
+        StatusType = message.Value.StatusType;
+        
     }
 
     [RelayCommand]
@@ -61,18 +67,23 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         var longRunningTask = new DummyTask(Messenger);
         await longRunningTask.ExecuteTask(token);
         Loaded = true;
-        await LaunchFirstCommand.ExecuteAsync(null);
+        await LaunchPrimaryCommand.ExecuteAsync(null);
     }
 
 
-    private bool CanExecuteLaunchFirst()
+    private bool CanExecuteLaunchPrimary()
     {
         return true;
     }
 
-    [RelayCommand(CanExecute = nameof(CanExecuteLaunchFirst))]
-    private async Task LaunchFirst()
+    [RelayCommand(CanExecute = nameof(CanExecuteLaunchPrimary))]
+    private async Task LaunchPrimary()
     {
+        if (Screens.Count > 0)
+        {
+            throw new InvalidOperationException("There are already screens open.");
+        }
+        
         var screen = _locator.GetRequiredService<LandingPageControlViewModel>();
         await Launch(screen);
     }

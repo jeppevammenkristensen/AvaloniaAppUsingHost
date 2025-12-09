@@ -2,4 +2,9 @@
 
 namespace AvaloniaAppUsingHost.Infrastructure.LongRunning;
 
-public class StatusDataMessage(string value) : ValueChangedMessage<string>(value);
+public enum StatusType { Info, Error }
+
+
+public record StatusMessage(string Value, StatusType StatusType);
+
+public class StatusValueDataMessage(StatusMessage value) : ValueChangedMessage<StatusMessage>(value);

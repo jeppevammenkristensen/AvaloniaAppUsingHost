@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AvaloniaAppUsingHost.Infrastructure;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
@@ -7,7 +8,7 @@ namespace AvaloniaAppUsingHost.ViewModels;
 
 public partial class LandingPageControlViewModel(ILogger<LandingPageControlViewModel> logger) : Screen
 {
-    public override string Title => "First Control";
+    public override string Title => "Landing page";
     [ObservableProperty] public partial bool PreventClose { get; set; }
 
     partial void OnPreventCloseChanged(bool value)
@@ -17,13 +18,13 @@ public partial class LandingPageControlViewModel(ILogger<LandingPageControlViewM
 
     public override Task OnActivatedAsync()
     {
-        logger.LogInformation("FirstControlViewModel OnActivatedAsync");
+        logger.LogInformation("On Activated");
         return Task.CompletedTask;
     }
 
     public override Task CloseAsync()
     {
-        logger.LogInformation("FirstControlViewModel Closed");
+        logger.LogInformation("On Close");
         return Task.CompletedTask;
     }
 }

@@ -1,10 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
+using Avalonia.Threading;
 using Avalonia.Markup.Xaml;
 using AvaloniaAppUsingHost.Infrastructure;
+using AvaloniaAppUsingHost.Infrastructure.LongRunning;
 using AvaloniaAppUsingHost.ViewModels;
 using AvaloniaAppUsingHost.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,10 +38,40 @@ public class App : Application
                 // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
                 // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
                 DisableAvaloniaDataAnnotationValidation();
+                
+
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = GlobalHost.Services.GetRequiredService<MainWindowViewModel>()
                 };
+                
+                // Hook UI thread unhandled exceptions to log via Microsoft.Extensions.Logging
+                Dispatcher.UIThread.UnhandledException +=  (_, e) =>
+                {
+                    try
+                    {
+                        GlobalHost.Services.GetRequiredService<ILogger<App>>()
+                            .LogCritical(e.Exception, "Unhandled exception on Avalonia UI thread");
+                    }
+                    catch (Exception ex)
+                    {
+                        // swallow any logging failures to avoid recursive crashes
+                        Debug.WriteLine("Error occurred when trying to log unhandled exception");
+                        Debug.WriteLine($"Original exception: {e}");
+                        Debug.WriteLine($"Exception when trying to log error: {ex}");
+                    }
+
+                    // This is a simplistic way to handle errors and should be refined
+                    
+                    var mainWindowViewModel = GlobalHost.Services.GetRequiredService<MainWindowViewModel>();
+                    mainWindowViewModel.Status = $"An error occurred  {e.Exception.Message}";
+                    mainWindowViewModel.StatusType = StatusType.Error;
+                    e.Handled = true;
+
+                    // Decide whether to keep the app alive on UI exceptions; here we don't handle them
+                    // so the default crash behavior is preserved. Set to true if you prefer to continue.
+                };
+                
                 desktop.Exit += async (_, _) =>
                 {
                     await GlobalHost.StopAsync();

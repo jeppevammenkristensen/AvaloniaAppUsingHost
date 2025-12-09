@@ -33,6 +33,6 @@ public abstract class BaseProgressReportingTask(IMessenger messenger)
     /// <param name="message"></param>
     protected void ReportStatus(string message)
     {
-        messenger.Send(new StatusDataMessage(message));
+        messenger.Send(new StatusValueDataMessage(new (message, StatusType.Info)));
     }
 }

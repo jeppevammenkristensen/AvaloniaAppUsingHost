@@ -6,5 +6,6 @@
 
     <Application.Styles>
         <FluentTheme />
+        <!-- <StyleInclude Source="avares://MsBox.Avalonia.Markdown/Controls/MarkdownView.axaml" /> -->
     </Application.Styles>
 </Application>
