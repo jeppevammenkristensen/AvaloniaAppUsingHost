@@ -29,6 +29,10 @@
             <Setter Property="Background" Value="{DynamicResource StatusBarBrush}" />
             <Setter Property="Padding" Value="5" />
         </Style>
+        <Style Selector="Border.StatusBarRed">
+            <Setter Property="Background" Value="DarkRed" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
         <Style Selector="TextBlock.Header">
             <Setter Property="FontSize" Value="50" />
             <Setter Property="FontWeight" Value="Bold" />
@@ -48,7 +52,7 @@
         <DockPanel Grid.Row="0">
             <Menu>
                 <MenuItem Header="_File">
-                    <MenuItem Header="Open First" Command="{Binding LaunchFirstCommand}" />
+                    <MenuItem Header="Open Primary" Command="{Binding LaunchPrimaryCommand}" />
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -88,8 +92,8 @@
             </TabControl.ContentTemplate>
         </TabControl>
 
-        <Border Grid.Row="2" Classes="StatusBar">
-            <TextBlock Classes="StatusBar" Text="{Binding Status}" />
+        <Border Grid.Row="2" Classes.StatusBar="{Binding DisplayInfo}" Classes.StatusBarRed="{Binding DisplayInfoError}">
+            <TextBlock  Text="{Binding Status}" />
         </Border>
 
         <ProgressBar Grid.Row="3" ShowProgressText="True" ProgressTextFormat="Motors at {0}/{3} capacity"
