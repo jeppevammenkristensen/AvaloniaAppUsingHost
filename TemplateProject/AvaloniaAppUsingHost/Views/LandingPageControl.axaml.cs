@@ -2,9 +2,9 @@
 
 namespace AvaloniaAppUsingHost.Views;
 
-public partial class FirstControl : UserControl
+public partial class LandingPageControl : UserControl
 {
-    public FirstControl()
+    public LandingPageControl()
     {
         InitializeComponent();
     }

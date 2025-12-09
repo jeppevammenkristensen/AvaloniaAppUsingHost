@@ -73,7 +73,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     [RelayCommand(CanExecute = nameof(CanExecuteLaunchFirst))]
     private async Task LaunchFirst()
     {
-        var screen = _locator.GetRequiredService<FirstControlViewModel>();
+        var screen = _locator.GetRequiredService<LandingPageControlViewModel>();
         await Launch(screen);
     }
 
