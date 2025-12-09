@@ -100,7 +100,7 @@ public class App : Application
         
         collection
             .AddViewModelAndRegisterView<MainWindowViewModel, MainWindow>(ViewModelScope.Singleton)
-            .AddViewModelAndRegisterView<FirstControlViewModel, FirstControl>(ViewModelScope.Transient);
+            .AddViewModelAndRegisterView<LandingPageControlViewModel, LandingPageControl>(ViewModelScope.Transient);
     }
 
     private void DisableAvaloniaDataAnnotationValidation()

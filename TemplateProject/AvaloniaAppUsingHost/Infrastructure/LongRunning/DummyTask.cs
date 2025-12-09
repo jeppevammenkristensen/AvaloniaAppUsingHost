@@ -9,11 +9,11 @@ public class DummyTask(IMessenger messenger) : BaseProgressReportingTask(messeng
 {
     public override async Task ExecuteTask(CancellationToken? token)
     {
-        ReportStatus("Starting engines...");
+        ReportStatus("Starting engines... (DummyTask)");
 
-        for (var i = 0; i <= 100; i += 1)
+        for (var i = 0; i <= 100; i += 10)
         {
-            if (i == 80) ReportStatus("Almost there");
+            if (i == 80) ReportStatus("Custom reported status");
 
             ReportProgress(i);
             await Task.Delay(i, token ?? CancellationToken.None);

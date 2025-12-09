@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AvaloniaAppUsingHost.ViewModels;
 
-public partial class FirstControlViewModel(ILogger<FirstControlViewModel> logger) : Screen
+public partial class LandingPageControlViewModel(ILogger<LandingPageControlViewModel> logger) : Screen
 {
     public override string Title => "First Control";
     [ObservableProperty] public partial bool PreventClose { get; set; }
