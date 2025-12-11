@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AvaloniaAppUsingHost.Template</id>
-    <version>2.0.0-beta-02</version>    
+    <version>2.0.0-beta-03</version>    
     <authors>Jeppe Roi Kristensen</authors>
     <owners>Jeppe Roi Kristensen</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
