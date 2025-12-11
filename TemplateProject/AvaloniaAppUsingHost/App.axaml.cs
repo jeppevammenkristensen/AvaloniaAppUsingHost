@@ -45,33 +45,8 @@ public class App : Application
                     DataContext = GlobalHost.Services.GetRequiredService<MainWindowViewModel>()
                 };
                 
-                // Hook UI thread unhandled exceptions to log via Microsoft.Extensions.Logging
-                Dispatcher.UIThread.UnhandledException +=  (_, e) =>
-                {
-                    try
-                    {
-                        GlobalHost.Services.GetRequiredService<ILogger<App>>()
-                            .LogCritical(e.Exception, "Unhandled exception on Avalonia UI thread");
-                    }
-                    catch (Exception ex)
-                    {
-                        // swallow any logging failures to avoid recursive crashes
-                        Debug.WriteLine("Error occurred when trying to log unhandled exception");
-                        Debug.WriteLine($"Original exception: {e}");
-                        Debug.WriteLine($"Exception when trying to log error: {ex}");
-                    }
+                SetupErrorHandling();
 
-                    // This is a simplistic way to handle errors and should be refined
-                    
-                    var mainWindowViewModel = GlobalHost.Services.GetRequiredService<MainWindowViewModel>();
-                    mainWindowViewModel.Status = $"An error occurred  {e.Exception.Message}";
-                    mainWindowViewModel.StatusType = StatusType.Error;
-                    e.Handled = true;
-
-                    // Decide whether to keep the app alive on UI exceptions; here we don't handle them
-                    // so the default crash behavior is preserved. Set to true if you prefer to continue.
-                };
-                
                 desktop.Exit += async (_, _) =>
                 {
                     await GlobalHost.StopAsync();
@@ -93,6 +68,36 @@ public class App : Application
                 GlobalHost.Services.GetRequiredService<ILogger<App>>()
                     .LogCritical(e, "Failed to start the application");
         }
+    }
+
+    private void SetupErrorHandling()
+    {
+        // Hook UI thread unhandled exceptions to log via Microsoft.Extensions.Logging
+        Dispatcher.UIThread.UnhandledException +=  (_, e) =>
+        {
+            try
+            {
+                GlobalHost.Services.GetRequiredService<ILogger<App>>()
+                    .LogCritical(e.Exception, "Unhandled exception on Avalonia UI thread");
+            }
+            catch (Exception ex)
+            {
+                // swallow any logging failures to avoid recursive crashes
+                Debug.WriteLine("Error occurred when trying to log unhandled exception");
+                Debug.WriteLine($"Original exception: {e}");
+                Debug.WriteLine($"Exception when trying to log error: {ex}");
+            }
+
+            // This is a simplistic way to handle errors and should be refined
+                    
+            var mainWindowViewModel = GlobalHost.Services.GetRequiredService<MainWindowViewModel>();
+            mainWindowViewModel.Status = $"An error occurred  {e.Exception.Message}";
+            mainWindowViewModel.StatusType = StatusType.Error;
+            e.Handled = true;
+
+            // Decide whether to keep the app alive on UI exceptions; here we don't handle them
+            // so the default crash behavior is preserved. Set to true if you prefer to continue.
+        };
     }
 
     private IHostBuilder CreateHostBuilder()
@@ -129,7 +134,8 @@ public class App : Application
     {
         // Since we hook up the MainWindow and use IOC to retrieve the MainWindowViewModel
         // it would technically be enough to only register the MainWindowViewModel with
-        // collection.AddSingleton<MainWindowViewModel>(); 
+        // collection.AddSingleton<MainWindowViewModel>() but for good measure it's registered here 
+        // also
         
         collection
             .AddViewModelAndRegisterView<MainWindowViewModel, MainWindow>(ViewModelScope.Singleton)

@@ -27,9 +27,9 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     }
 
 
-    [ObservableProperty] public partial ObservableCollection<Screen> Screens { get; set; }
+    [ObservableProperty] public partial ObservableCollection<ScreenPage> Screens { get; set; }
 
-    [ObservableProperty] public partial Screen? Screen { get; set; }
+    [ObservableProperty] public partial ScreenPage? Screen { get; set; }
 
     [ObservableProperty] public partial string Status { get; set; }
 
@@ -88,7 +88,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         await Launch(screen);
     }
 
-    partial void OnScreenChanged(Screen? oldValue, Screen? newValue)
+    partial void OnScreenChanged(ScreenPage? oldValue, ScreenPage? newValue)
     {
         if (oldValue is not null) oldValue.PropertyChanged -= ScreenPropertyChanged;
 
@@ -100,14 +100,14 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         if (e.PropertyName == nameof(Screen.CanClose)) CloseCommand.NotifyCanExecuteChanged();
     }
 
-    private async Task Launch(Screen screen)
+    private async Task Launch(ScreenPage screenPage)
     {
-        Screens.Add(screen);
-        await screen.OnActivatedAsync();
-        Screen = screen;
+        Screens.Add(screenPage);
+        await screenPage.OnActivatedAsync();
+        Screen = screenPage;
     }
 
-    private bool CanExecuteClose(Screen? screen)
+    private bool CanExecuteClose(ScreenPage? screen)
     {
         if (screen is null) return false;
 
@@ -115,10 +115,10 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteClose))]
-    private async Task Close(Screen screen)
+    private async Task Close(ScreenPage screenPage)
     {
-        await screen.CloseAsync();
-        Screens.Remove(screen);
+        await screenPage.CloseAsync();
+        Screens.Remove(screenPage);
         if (Screens.Count > 0)
             Screen = Screens[^1];
         else

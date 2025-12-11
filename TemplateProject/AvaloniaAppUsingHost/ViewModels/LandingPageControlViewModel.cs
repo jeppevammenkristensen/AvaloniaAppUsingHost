@@ -6,7 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace AvaloniaAppUsingHost.ViewModels;
 
-public partial class LandingPageControlViewModel(ILogger<LandingPageControlViewModel> logger) : Screen
+/// <summary>
+/// An initial landing page. 
+/// </summary>
+/// <param name="logger"></param>
+public partial class LandingPageControlViewModel(ILogger<LandingPageControlViewModel> logger) : ScreenPage
 {
     public override string Title => "Landing page";
     [ObservableProperty] public partial bool PreventClose { get; set; }

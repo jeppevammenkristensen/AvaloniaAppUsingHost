@@ -11,11 +11,10 @@ public abstract class BaseProgressReportingTask(IMessenger messenger)
 
 
     /// <summary>
-    ///     Reports progress to the messenger. The progress should be between 0 and 100 otherwise an
+    ///     Reports progress through messenger. The progress should be between 0 and 100 otherwise an
     ///     exception will be thrown
     /// </summary>
     /// <param name="progress"></param>
-    /// <param name="message"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     protected void ReportProgress(double progress)
     {
@@ -28,11 +27,10 @@ public abstract class BaseProgressReportingTask(IMessenger messenger)
 
     /// <summary>
     /// This reports status back to the MainWindowViewModel by
-    /// sending a <see cref="StatusDataMessage"/>
     /// </summary>
     /// <param name="message"></param>
     protected void ReportStatus(string message)
     {
-        messenger.Send(new StatusValueDataMessage(new (message, StatusType.Info)));
+        messenger.Send(new StatusValueDataMessage(new StatusMessage(message, StatusType.Info)));
     }
 }
