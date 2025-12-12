@@ -73,7 +73,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
 
     private bool CanExecuteLaunchPrimary()
     {
-        return 
+        return true;
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteLaunchPrimary))]
