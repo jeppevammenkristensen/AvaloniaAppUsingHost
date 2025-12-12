@@ -73,17 +73,12 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
 
     private bool CanExecuteLaunchPrimary()
     {
-        return true;
+        return 
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteLaunchPrimary))]
     private async Task LaunchPrimary()
     {
-        if (Screens.Count > 0)
-        {
-            throw new InvalidOperationException("There are already screens open.");
-        }
-        
         var screen = _locator.GetRequiredService<LandingPageControlViewModel>();
         await Launch(screen);
     }
