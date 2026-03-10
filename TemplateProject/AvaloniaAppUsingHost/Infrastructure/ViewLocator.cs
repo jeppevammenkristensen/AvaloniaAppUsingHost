@@ -23,7 +23,7 @@ public static class ViewLocatorHelpers
     /// <returns>The IServiceCollection instance for method chaining.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified <paramref name="scope" /> is invalid.</exception>
     /// <remarks>
-    ///     When a view is associated with a viewmodel it will be added as DataTemplate so you can bind
+    ///     When a view i4s associated with a viewmodel it will be added as DataTemplate so you can bind
     ///     like this <![CDATA[<ContentControl Grid.Row="1" Content="{Binding Screen}" ></ContentControl>]]>
     ///     In a tab control if you bind a viewmodel to the SeledtedItem property it will be automatically resolved
     /// </remarks>
