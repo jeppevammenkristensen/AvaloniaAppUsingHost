@@ -14,6 +14,11 @@ Where `{Version}` is the version you want to install.
 
 You can now create a new solution with:
 
+From version 2.1.0 forward instead install directly with 
+```bash
+dotnet new install AvaloniaAppUsingHost.Template
+```
+
 ```bash
 dotnet new avalonia-host 
 ```
