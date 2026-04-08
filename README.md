@@ -1,5 +1,7 @@
 # Avalonia App with Host
 
+[![AvaloniaAppUsingHost.Template](https://img.shields.io/nuget/v/AvaloniaAppUsingHost.Template?style=flat-square&label=NuGet%3A%20AvaloniaAppUsingHost.Template)](https://www.nuget.org/packages/AvaloniaAppUsingHost.Template/)
+
 This is a template that can help you get quickly started with an Avalonia application that uses the `Host` package to manage the application lifecycle and dependency injection.
 
 ## Installing
