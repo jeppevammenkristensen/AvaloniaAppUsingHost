@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AvaloniaAppUsingHost.Template</id>
-    <version>2.1.0</version>    
+    <version>3.0.0</version>    
     <authors>Jeppe Roi Kristensen</authors>
     <owners>Jeppe Roi Kristensen</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <summary>Avalonia application template using Microsoft.Extensions.Hosting and MVVM pattern.</summary>    
     <tags>avalonia template mvvm desktop</tags>
     <repository type="git" url="https://github.com/jeppevammenkristensen/AvaloniaAppUsingHost" />
-    <releaseNotes>Initial template hosted on nuget</releaseNotes>
+    <releaseNotes>Update to support Avalonia 12.0</releaseNotes>
     <readme>docs/readme.md</readme>
     <packageTypes>
       <packageType name="Template" />

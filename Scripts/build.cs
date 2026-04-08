@@ -1,4 +1,5 @@
-#:package FileBasedApp.Toolkit@0.14.0
+#:package FileBasedApp.Toolkit@0.19.1
+#:package FileBasedApp.Toolkit.Dotnet@0.19.0
 #:property PublishAot=false 
 
 using Spectre.Console.Cli;
@@ -7,7 +8,9 @@ using Spectre.Console;
 using FileBasedApp.Toolkit;
 using System.IO.Abstractions;
 using TruePath.TestableIO.System.IO;
-using static SimpleExec.Command;
+using FileBasedApp.Toolkit.CommandCli;
+using FileBasedApp.Toolkit.SimpleExec;
+using FileBasedApp.Toolkit.Dotnet;
 
 var commandApp = new CommandApp<RunCommand>();
 commandApp.Configure(config => config.PropagateExceptions());
@@ -41,48 +44,43 @@ public class RunCommand : AsyncCommand<RunCommand.Settings> // For sync only you
 			
 			// List<string> arguments = ["build", slnx.Value, "-c", "Release", "-o", releaseFolder.Value];
 			// await RunAsync("dotnet", arguments, ct: cancellationToken);
-
-			List<string> nugetParameters = ["pack", nuspec.Value, "-OutputDirectory", nugetFolder.Value];
-			if (!string.IsNullOrWhiteSpace(settings.Version))
-			{
-				nugetParameters.AddRange("-Version", settings.Version);
-			}
-
-			if (!string.IsNullOrWhiteSpace(settings.VersionSuffix))
-			{
-				nugetParameters.AddRange("-Suffix", settings.VersionSuffix);
-			}
-			await RunAsync("nuget", nugetParameters, ct: cancellationToken);
+			
+			await SimpleExecRunner.Init("nuget")				
+				.AddArgumentPair("pack", nuspec)
+				.AddArgumentPair("-OutputDirectory", nugetFolder)
+				.AddArgumentPairIfValueNotEmpty("-Version", settings.Version, StringNullCheck.NullOrWhitespace)
+				.AddArgumentPairIfValueNotEmpty("-Suffix", settings.VersionSuffix, StringNullCheck.NullOrWhitespace)
+				.RunAsync(token:cancellationToken);
 			
 			foreach (var absolutePath in nugetFolder.EnumerateFiles("*.nupkg"))
 			{
 				AnsiConsole.MarkupLineInterpolated($"[dim]Pushing [bold]{absolutePath.RelativeTo(settings.RootPath)}[/][/]");
 
-				List<string> pushParameters = ["nuget", "push", absolutePath.Value, "--skip-duplicate"];
+
+				var runner = DotnetNugetPushSimpleRunner.Init().WithPackage(absolutePath).WithSkipDuplicate();
+
+				//var nugetRunner = SimpleExecRunner.Init("nuget")
+				//	.AddArgumentPair("push", absolutePath)
+				//	.AddArgument("--skip-duplicate");
 
 				if (!string.IsNullOrWhiteSpace(settings.ApiKey))
 				{
-					pushParameters.AddRange("--api-key", settings.ApiKey);
-					pushParameters.AddRange("--source", "nuget.org");
+					runner
+						.WithApiKey(settings.ApiKey, true)
+						.WithSource("nuget.org");						
 				}
 				else
 				{
-					pushParameters.AddRange("--source", "Local");
+					runner.WithSource("local");					
 				}
 				
-				await RunAsync("dotnet", pushParameters, ct: cancellationToken);
+				await runner.RunAsync(token: cancellationToken);
 			}
 		}
 		finally
 		{
-			try
-			{
-				artifact.DirectoryDelete(true);
-			}
-			catch
-			{
-				// ignored
-			}
+			artifact.SafeDeleteDirectory();
+			
 		}
 		
 		//await static.RunAsync("dotnet", ["--version"], parentDirectory.Value, ct: cancellationToken);
