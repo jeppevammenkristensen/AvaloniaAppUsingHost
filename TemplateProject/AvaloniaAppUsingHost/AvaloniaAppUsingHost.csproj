@@ -27,7 +27,9 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
         <PackageReference Include="Xaml.Behaviors.Avalonia" Version="12.0.0" />
-        
+        <!-- Pin transitive dependency to fix GHSA-xrw6-gwf8-vvr9 (via Avalonia.FreeDesktop) -->
+        <PackageReference Include="Tmds.DBus.Protocol" Version="0.92.0" />
+
     </ItemGroup>
 
     <ItemGroup>
