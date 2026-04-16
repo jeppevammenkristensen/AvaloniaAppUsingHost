@@ -6,23 +6,22 @@ This is a template that can help you get quickly started with an Avalonia applic
 
 ## Installing
 
-To install the template, download the latest release from the [Releases page] and in the corresponding folder run:
+To install the template run
 
-```bash
-dotnet new install AvaloniaAppUsingHost.Template.{Version}.nupkg
-```
-
-Where `{Version}` is the version you want to install.
-
-You can now create a new solution with:
-
-From version 2.1.0 forward instead install directly with 
 ```bash
 dotnet new install AvaloniaAppUsingHost.Template
 ```
 
+Use is like this to create it in the current folder with the given name
+
 ```bash
-dotnet new avalonia-host 
+dotnet new avalonia-host -n OtherName
+```
+
+or in a new folder 
+
+```bash
+dotnet new avalonia-host -o OutputFolder
 ```
 
 You can use `-n` to give it a different name than the folder from which this command is called.
