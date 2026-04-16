@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia.Threading;
 using AvaloniaAppUsingHost.Infrastructure;
 using AvaloniaAppUsingHost.Infrastructure.LongRunning;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,7 +14,6 @@ namespace AvaloniaAppUsingHost.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDataMessage>, IRecipient<StatusValueDataMessage>
 {
     private readonly IServiceLocator _locator;
-
 
     public MainWindowViewModel(IServiceLocator locator, IConfiguration configuration)
     {
