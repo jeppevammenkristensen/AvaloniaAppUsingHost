@@ -27,6 +27,12 @@ dotnet new avalonia-host
 
 You can use `-n` to give it a different name than the folder from which this command is called.
 
+## Shameless self promotion
+
+I have developed a Jetbrains Rider/Resharper plugin that can help with MVVM based apps called. You can find it here https://plugins.jetbrains.com/plugin/26397-mvvm-helper/ it can be useful for developing this kind of application. And I use it myself.
+
+It's completely free and open source.
+
 ## Quick Overview
 
 The template creates an application where `Microsoft.Extensions.Hosting` is used to manage the application lifecycle, dependency injection, and configuration.
@@ -83,3 +89,19 @@ Service locator implementation includes:
 - `IServiceLocator` interface
 - `ServiceCollectionServiceLocator` implementation
 - Integration with Microsoft.Extensions.DependencyInjection
+
+## Using AI with the Template
+
+The generated solution ships with `AGENTS.md` and `CLAUDE.md` so AI coding assistants follow the project's conventions. A few short prompts that work well:
+
+### Create a view + view model
+
+> Create a new view called `SettingsPage` with a matching view model, and register them in `App.axaml.cs`.
+
+The assistant will scaffold `Views/SettingsPage.axaml` (+ `.axaml.cs`), `ViewModels/SettingsPageViewModel.cs` deriving from `ScreenPage`, and add `AddViewModelAndRegisterView<SettingsPageViewModel, SettingsPage>(...)` to `RegisterViews`.
+
+### Add a menu item that launches it
+
+> Add a menu item under `File` in `MainWindow` that launches the `SettingsPageViewModel` as a new tab.
+
+The assistant will add a `<MenuItem>` to `MainWindow.axaml` and a `[RelayCommand]`-decorated method on `MainWindowViewModel` that resolves the view model via `_locator` and calls `Launch(...)`.

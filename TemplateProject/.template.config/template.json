@@ -16,7 +16,7 @@
     {
       "modifiers" : [
         {
-          "exclude": [ ".vs",".vscode", "bin", "obj", "packages" ],
+          "exclude": [ ".vs",".vscode", "bin", "obj", "packages", "docs/**" ],
           "include": [ "**/*" ]
         }
       ]

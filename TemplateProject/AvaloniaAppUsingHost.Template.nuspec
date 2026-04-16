@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AvaloniaAppUsingHost.Template</id>
-    <version>3.0.0</version>    
+    <version>3.1.0</version>    
     <authors>Jeppe Roi Kristensen</authors>
     <owners>Jeppe Roi Kristensen</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,14 +10,18 @@
     <summary>Avalonia application template using Microsoft.Extensions.Hosting and MVVM pattern.</summary>    
     <tags>avalonia template mvvm desktop</tags>
     <repository type="git" url="https://github.com/jeppevammenkristensen/AvaloniaAppUsingHost" />
-    <releaseNotes>Update to support Avalonia 12.0</releaseNotes>
+    <releaseNotes>
+      - Added AGENTS.MD and CLAUDE.MD files to aid with creating view and View models and support registering them
+      - Added AI instruction to aid with added a menu item
+      - Fixed Vulnerability
+    </releaseNotes>
     <readme>docs/readme.md</readme>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
   </metadata>
   <files>
-    <file src="**\*" target="content" exclude="**\bin\**;**\obj\**;**\.idea\*;**\.vs\**;*sln.DotSettings*" />
-    <file src="readme.md" target="docs\" />
+    <file src="**\*" target="content" exclude="**\bin\**;**\obj\**;**\.idea\*;**\.vs\**;*sln.DotSettings*;docs\**" />
+    <file src="docs\readme.md" target="docs\" />
   </files>
 </package>
