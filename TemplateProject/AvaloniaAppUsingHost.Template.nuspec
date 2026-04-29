@@ -2,18 +2,17 @@
 <package >
   <metadata>
     <id>AvaloniaAppUsingHost.Template</id>
-    <version>3.1.0</version>    
+    <version>3.2.0-rc-01</version>    
     <authors>Jeppe Roi Kristensen</authors>
     <owners>Jeppe Roi Kristensen</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
     <description>A .NET solution template for Avalonia applications using Host.</description>
     <summary>Avalonia application template using Microsoft.Extensions.Hosting and MVVM pattern.</summary>    
     <tags>avalonia template mvvm desktop</tags>
     <repository type="git" url="https://github.com/jeppevammenkristensen/AvaloniaAppUsingHost" />
     <releaseNotes>
-      - Added AGENTS.MD and CLAUDE.MD files to aid with creating view and View models and support registering them
-      - Added AI instruction to aid with added a menu item
-      - Fixed Vulnerability
+      - Rewrite of styles
     </releaseNotes>
     <readme>docs/readme.md</readme>
     <packageTypes>
@@ -23,5 +22,6 @@
   <files>
     <file src="**\*" target="content" exclude="**\bin\**;**\obj\**;**\.idea\*;**\.vs\**;*sln.DotSettings*;docs\**" />
     <file src="docs\readme.md" target="docs\" />
+    <file src="..\LICENSE" target="" />
   </files>
 </package>
