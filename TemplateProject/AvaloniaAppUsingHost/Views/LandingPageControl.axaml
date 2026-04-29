@@ -1,4 +1,4 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,8 +6,9 @@
              x:DataType="viewModel:LandingPageControlViewModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaAppUsingHost.Views.LandingPageControl">
-    <StackPanel>
-        <TextBlock Text="{Binding Title}" />
-        <CheckBox IsChecked="{Binding PreventClose}" />
+    <StackPanel Spacing="14">
+        <TextBlock Classes="Header" Text="{Binding Title}" />
+        <TextBlock Classes="Subtitle" Text="Welcome — configure your session below." />
+        <CheckBox IsChecked="{Binding PreventClose}" Content="Prevent close" />
     </StackPanel>
 </UserControl>

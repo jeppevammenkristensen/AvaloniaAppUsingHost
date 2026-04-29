@@ -3,44 +3,12 @@
         xmlns:vm="using:AvaloniaAppUsingHost.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="560"
         x:Class="AvaloniaAppUsingHost.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         x:Name="Main"
         Icon="/Assets/avalonia-logo.ico"
         Title="{Binding Title}" IsEnabled="{Binding Loaded}">
-
-    <Window.Resources>
-
-        <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%" x:Key="BackgroundBrush">
-            <GradientStop Color="#CCCCCC" Offset="0.0" />
-            <GradientStop Color="#4ECDC4" Offset="1.0" />
-        </LinearGradientBrush>
-        <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%" x:Key="StatusBarBrush">
-            <GradientStop Color="LightGray" Offset="0.0" />
-            <GradientStop Color="Gray" Offset="1.0" />
-        </LinearGradientBrush>
-    </Window.Resources>
-    <Window.Styles>
-        <Style Selector="Window">
-            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
-        </Style>
-        <Style Selector="Border.StatusBar">
-            <Setter Property="Background" Value="{DynamicResource StatusBarBrush}" />
-            <Setter Property="Padding" Value="5" />
-        </Style>
-        <Style Selector="Border.StatusBarRed">
-            <Setter Property="Background" Value="DarkRed" />
-            <Setter Property="Padding" Value="5" />
-        </Style>
-        <Style Selector="TextBlock.Header">
-            <Setter Property="FontSize" Value="50" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Margin" Value="10,0,0,0" />
-            
-        </Style>
-    </Window.Styles>
-
 
     <Interaction.Behaviors>
         <EventTrigger EventName="Loaded">
@@ -57,10 +25,12 @@
             </Menu>
         </DockPanel>
 
-        <TextBlock IsVisible="{Binding !Loaded}" Grid.Row="1" Classes="Header" Text="Loading...." VerticalAlignment="Center" HorizontalAlignment="Center">
-            
-        </TextBlock>
-        
+        <StackPanel IsVisible="{Binding !Loaded}" Grid.Row="1"
+                    VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="6">
+            <TextBlock Classes="Header" Text="Loading" HorizontalAlignment="Center" />
+            <TextBlock Classes="Subtitle" Text="Preparing your workspace..." HorizontalAlignment="Center" />
+        </StackPanel>
+
         <TabControl
             Name="TabControl"
             IsVisible="{Binding Loaded}"
@@ -70,9 +40,7 @@
             SelectedItem="{Binding Screen}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock
-                        Name="TabTitleTextBox"
-                        Text="{Binding Title}">
+                    <TextBlock Name="TabTitleTextBox" Text="{Binding Title}">
                         <TextBlock.ContextMenu>
                             <ContextMenu>
                                 <MenuItem
@@ -86,21 +54,19 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <ContentControl Content="{Binding}">
-                    </ContentControl>
+                    <Border Classes="Card">
+                        <ContentControl Content="{Binding}" />
+                    </Border>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
 
         <Border Grid.Row="2" Classes.StatusBar="{Binding DisplayInfo}" Classes.StatusBarRed="{Binding DisplayInfoError}">
-            <TextBlock  Text="{Binding Status}" />
+            <TextBlock Text="{Binding Status}" />
         </Border>
 
-        <ProgressBar Grid.Row="3" ShowProgressText="True" ProgressTextFormat="Motors at {0}/{3} capacity"
+        <ProgressBar Grid.Row="3" ShowProgressText="False"
                      IsVisible="{Binding StartupCommand.IsRunning}" IsIndeterminate="False" Minimum="0" Maximum="100"
                      Value="{Binding CurrentProgress}" />
-
     </Grid>
-
-
 </Window>
