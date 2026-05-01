@@ -9,6 +9,16 @@ This is a template that can help you get quickly started with an Avalonia applic
 To install the template run
 
 ```bash
+dotnet new install AvaloniaAppUsingHost.Template.{Version}.nupkg
+```
+
+Where `{Version}` is the version you want to install.
+
+You can now create a new solution with:
+
+From version 2.1.0 forward instead install directly with
+
+```bash
 dotnet new install AvaloniaAppUsingHost.Template
 ```
 
@@ -26,9 +36,14 @@ dotnet new avalonia-host -o OutputFolder
 
 You can use `-n` to give it a different name than the folder from which this command is called.
 
+*IMPORTANT* Please avoid naming in -o like Foo-Bar as it will generate uncompilable solution. The fix is
+
+- Rename the path in the solution file from Foo_Bar to Foo-Bar
+- In App.axaml. For the two ResourceInlude also rename for Foo_Bar to Foo-Bar
+
 ## Shameless self promotion
 
-I have developed a Jetbrains Rider/Resharper plugin that can help with MVVM based apps called. You can find it here https://plugins.jetbrains.com/plugin/26397-mvvm-helper/ it can be useful for developing this kind of application. And I use it myself.
+I have developed a Jetbrains Rider/Resharper plugin that can help with MVVM based apps called. You can find it here <https://plugins.jetbrains.com/plugin/26397-mvvm-helper/> it can be useful for developing this kind of application. And I use it myself.
 
 It's completely free and open source.
 
