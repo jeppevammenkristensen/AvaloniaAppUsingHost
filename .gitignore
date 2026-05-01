@@ -65,3 +65,5 @@ coverage/
 # Rider compile output
 .idea_modules/.*
 atabaseonly simplifies your upcoming..]]
+
+/playground

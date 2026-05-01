@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AvaloniaAppUsingHost.Template</id>
-    <version>3.2.0-rc-01</version>    
+    <version>3.2.0</version>    
     <authors>Jeppe Roi Kristensen</authors>
     <owners>Jeppe Roi Kristensen</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -13,6 +13,8 @@
     <repository type="git" url="https://github.com/jeppevammenkristensen/AvaloniaAppUsingHost" />
     <releaseNotes>
       - Rewrite of styles
+      - Bumped versions to 12.0.2
+      - Fixed issue where .template.config folder was included
     </releaseNotes>
     <readme>docs/readme.md</readme>
     <packageTypes>
@@ -22,6 +24,5 @@
   <files>
     <file src="**\*" target="content" exclude="**\bin\**;**\obj\**;**\.idea\*;**\.vs\**;*sln.DotSettings*;docs\**" />
     <file src="docs\readme.md" target="docs\" />
-    <file src="..\LICENSE" target="" />
   </files>
 </package>
