@@ -22,6 +22,7 @@ public abstract class BaseProgressReportingTask(IMessenger messenger)
         {
             throw new ArgumentOutOfRangeException(nameof(progress), "Progress must be between 0 and 100.");
         }
+
         messenger.Send(new ProgressDataMessage(progress));
     }
 
@@ -31,6 +32,6 @@ public abstract class BaseProgressReportingTask(IMessenger messenger)
     /// <param name="message"></param>
     protected void ReportStatus(string message)
     {
-        messenger.Send(new StatusValueDataMessage(new StatusMessage(message, StatusType.Info)));
+        messenger.SendInformation(message);
     }
 }

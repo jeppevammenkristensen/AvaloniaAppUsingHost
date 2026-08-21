@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -29,7 +30,7 @@ public static class ViewLocatorHelpers
     /// </remarks>
     internal static IServiceCollection AddViewModelAndRegisterView<TViewModel, TView>(
         this IServiceCollection collection, ViewModelScope scope)
-        where TViewModel : ViewModelBase where TView : Control, new()
+        where TViewModel : ObservableObject where TView : Control, new()
     {
         switch (scope)
         {
@@ -58,7 +59,7 @@ public static class ViewLocatorHelpers
     ///     like this <![CDATA[<ContentControl Grid.Row="1" Content="{Binding Screen}" ></ContentControl>]]>
     /// </remarks>
     private static IServiceCollection AddView<TViewModel, TView>(this IServiceCollection collection)
-        where TViewModel : ViewModelBase where TView : Control, new()
+        where TViewModel : ObservableObject where TView : Control, new()
     {
         collection.AddSingleton(new ViewLocator.ViewLocatorDescriptor(typeof(TViewModel), () => new TView()));
         return collection;

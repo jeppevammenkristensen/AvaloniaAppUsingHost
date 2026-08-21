@@ -21,6 +21,7 @@
             <Menu>
                 <MenuItem Header="_File">
                     <MenuItem Header="Open Primary" Command="{Binding LaunchPrimaryCommand}" />
+                    <MenuItem Header="Open Validation Example" Command="{Binding LaunchValidationExampleCommand}" />
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -61,7 +62,7 @@
             </TabControl.ContentTemplate>
         </TabControl>
 
-        <Border Grid.Row="2" Classes.StatusBar="{Binding DisplayInfo}" Classes.StatusBarRed="{Binding DisplayInfoError}">
+        <Border Grid.Row="2" Classes.StatusBar="{Binding DisplayInfo}" Classes.StatusBarRed="{Binding DisplayInfoError}" Classes.StatusBarSuccess="{Binding DisplaySuccess}">
             <TextBlock Text="{Binding Status}" />
         </Border>
 

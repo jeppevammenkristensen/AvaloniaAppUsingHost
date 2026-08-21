@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:AvaloniaAppUsingHost.ViewModels"
+             x:DataType="viewModel:ValidationExamplePageViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="AvaloniaAppUsingHost.Views.ValidationExamplePage">
+    <StackPanel Spacing="14">
+        <TextBlock Classes="Header" Text="{Binding Title}" />
+        <TextBlock Classes="Subtitle"
+                   Text="Enter a name to see ObservableValidator and data-annotation validation in action." />
+
+        <TextBox Width="320"
+                 PlaceholderText="Name (required)"
+                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Button Classes="Accent"
+                HorizontalAlignment="Left"
+                Command="{Binding ValidateCommand}"
+                Content="Validate" />
+
+        <TextBlock Text="{Binding ValidationResult}"
+                   TextWrapping="Wrap" />
+    </StackPanel>
+</UserControl>

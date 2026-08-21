@@ -58,6 +58,15 @@
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="FontSize" Value="12" />
     </Style>
+    <Style Selector="Border.StatusBarSuccess">
+        <Setter Property="Background" Value="{DynamicResource StatusBarSuccessBrush}" />
+        <Setter Property="Padding" Value="14,8" />
+    </Style>
+    <Style Selector="Border.StatusBarSuccess > TextBlock">
+        <Setter Property="Foreground" Value="#E5FFE5" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
 
     <!-- Card surface -->
     <Style Selector="Border.Card">
