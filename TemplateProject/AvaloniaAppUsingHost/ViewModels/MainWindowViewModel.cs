@@ -11,7 +11,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace AvaloniaAppUsingHost.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDataMessage>, IRecipient<StatusValueDataMessage>
+public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDataMessage>,
+    IRecipient<StatusValueDataMessage>
 {
     private readonly IServiceLocator _locator;
 
@@ -24,9 +25,9 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     }
 
 
-    [ObservableProperty] public partial ObservableCollection<ScreenPage> Screens { get; set; }
+    [ObservableProperty] public partial ObservableCollection<IScreenPage> Screens { get; set; }
 
-    [ObservableProperty] public partial ScreenPage? Screen { get; set; }
+    [ObservableProperty] public partial IScreenPage? Screen { get; set; }
 
     [ObservableProperty] public partial string Status { get; set; }
 
@@ -38,10 +39,16 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
 
     [ObservableProperty] public partial bool Loaded { get; set; }
     [ObservableProperty] public partial string Title { get; set; }
-    [NotifyPropertyChangedFor(nameof(DisplayInfo))] [NotifyPropertyChangedFor(nameof(DisplayInfoError))] [ObservableProperty] public partial StatusType StatusType { get; set; }
+
+    [NotifyPropertyChangedFor(nameof(DisplayInfo))]
+    [NotifyPropertyChangedFor(nameof(DisplayInfoError))]
+    [NotifyPropertyChangedFor(nameof(DisplaySuccess))]
+    [ObservableProperty]
+    public partial StatusType StatusType { get; set; }
 
     public bool DisplayInfo => StatusType == StatusType.Info;
     public bool DisplayInfoError => StatusType == StatusType.Error;
+    public bool DisplaySuccess => StatusType == StatusType.Success;
 
     public void Receive(ProgressDataMessage message)
     {
@@ -52,7 +59,6 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     {
         Status = message.Value.Value;
         StatusType = message.Value.StatusType;
-        
     }
 
     [RelayCommand]
@@ -80,7 +86,25 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         await Launch(screen);
     }
 
-    partial void OnScreenChanged(ScreenPage? oldValue, ScreenPage? newValue)
+    /// <summary>
+    /// Determines whether the validation example can be launched.
+    /// </summary>
+    private static bool CanExecuteLaunchValidationExample()
+    {
+        return true;
+    }
+
+    /// <summary>
+    /// Launches the validating screen-page example in a new tab.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(CanExecuteLaunchValidationExample))]
+    private async Task LaunchValidationExample()
+    {
+        var screen = _locator.GetRequiredService<ValidationExamplePageViewModel>();
+        await Launch(screen);
+    }
+
+    partial void OnScreenChanged(IScreenPage? oldValue, IScreenPage? newValue)
     {
         if (oldValue is not null) oldValue.PropertyChanged -= ScreenPropertyChanged;
 
@@ -92,14 +116,14 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         if (e.PropertyName == nameof(Screen.CanClose)) CloseCommand.NotifyCanExecuteChanged();
     }
 
-    private async Task Launch(ScreenPage screenPage)
+    private async Task Launch(IScreenPage screenPage)
     {
         Screens.Add(screenPage);
         await screenPage.OnActivatedAsync();
         Screen = screenPage;
     }
 
-    private bool CanExecuteClose(ScreenPage? screen)
+    private bool CanExecuteClose(IScreenPage? screen)
     {
         if (screen is null) return false;
 
@@ -107,7 +131,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteClose))]
-    private async Task Close(ScreenPage screenPage)
+    private async Task Close(IScreenPage screenPage)
     {
         await screenPage.CloseAsync();
         Screens.Remove(screenPage);

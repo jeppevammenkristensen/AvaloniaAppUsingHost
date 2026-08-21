@@ -37,7 +37,7 @@ public class App : Application
                 {
                     DataContext = GlobalHost.Services.GetRequiredService<MainWindowViewModel>()
                 };
-                
+
                 SetupErrorHandling();
 
                 desktop.Exit += async (_, _) =>
@@ -66,7 +66,7 @@ public class App : Application
     private void SetupErrorHandling()
     {
         // Hook UI thread unhandled exceptions to log via Microsoft.Extensions.Logging
-        Dispatcher.UIThread.UnhandledException +=  (_, e) =>
+        Dispatcher.UIThread.UnhandledException += (_, e) =>
         {
             try
             {
@@ -82,7 +82,7 @@ public class App : Application
             }
 
             // This is a simplistic way to handle errors and should be refined
-                    
+
             var mainWindowViewModel = GlobalHost.Services.GetRequiredService<MainWindowViewModel>();
             mainWindowViewModel.Status = $"An error occurred  {e.Exception.Message}";
             mainWindowViewModel.StatusType = StatusType.Error;
@@ -100,7 +100,7 @@ public class App : Application
             {
                 // Example of using the context
                 // ctx.Configuration["SomeValue"];
-                
+
                 services
                     .AddTransient<IServiceLocator, ServiceCollectionServiceLocator>()
                     .AddTransient<ViewLocator>();
@@ -129,10 +129,11 @@ public class App : Application
         // it would technically be enough to only register the MainWindowViewModel with
         // collection.AddSingleton<MainWindowViewModel>() but for good measure it's registered here 
         // also
-        
+
         collection
             .AddViewModelAndRegisterView<MainWindowViewModel, MainWindow>(ViewModelScope.Singleton)
-            .AddViewModelAndRegisterView<LandingPageControlViewModel, LandingPageControl>(ViewModelScope.Transient);
+            .AddViewModelAndRegisterView<LandingPageControlViewModel, LandingPageControl>(ViewModelScope.Transient)
+            .AddViewModelAndRegisterView<ValidationExamplePageViewModel, ValidationExamplePage>(
+                ViewModelScope.Transient);
     }
-
 }

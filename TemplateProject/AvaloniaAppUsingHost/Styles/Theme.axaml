@@ -57,6 +57,7 @@
         <GradientStop Color="#222838" Offset="1.0" />
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StatusBarErrorBrush" Color="#7F1D1D" />
+    <SolidColorBrush x:Key="StatusBarSuccessBrush" Color="#166534" />
 
     <!-- ===== Radii ===== -->
     <CornerRadius x:Key="RadiusSm">4</CornerRadius>

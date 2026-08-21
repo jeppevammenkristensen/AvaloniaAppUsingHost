@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using AvaloniaAppUsingHost.Infrastructure.LongRunning;
 using AvaloniaAppUsingHost.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace AvaloniaAppUsingHost.Infrastructure;
 
@@ -12,7 +10,7 @@ namespace AvaloniaAppUsingHost.Infrastructure;
 /// <remarks>To register a coupling between a view model and a View use the extension method
 /// <see cref="ViewLocatorHelpers.AddViewModelAndRegisterView"/> in the <see cref="App.RegisterViews"/> part
 /// </remarks>
-public abstract partial class ScreenPage : ViewModelBase
+public abstract partial class ScreenPage : ViewModelBase, IScreenPage
 {
     /// <summary>
     /// The title displayed in the tab view
@@ -22,7 +20,8 @@ public abstract partial class ScreenPage : ViewModelBase
     /// <summary>
     /// Signal if the current screen can close
     /// </summary>
-    [ObservableProperty] public partial bool CanClose { get; set; } = true;
+    [ObservableProperty]
+    public partial bool CanClose { get; set; } = true;
 
     /// <summary>
     /// Override this to perform an operation after an instance of the given
@@ -47,21 +46,19 @@ public abstract partial class ScreenPage : ViewModelBase
     /// Submit a status message that will be displayed in the
     /// bottom of the screen
     /// </summary>
-    /// <param name="message"></param>
+    /// <param name="message">The message to display.</param>
     protected void SetStatusMessage(string message)
     {
-        var valueMesage = new StatusValueDataMessage(new StatusMessage(message, StatusType.Info));
-        Messenger.Send(valueMesage);
+        Messenger.SendInformation(message);
     }
 
     /// <summary>
     /// Submit an error message that will be displayed in the
     /// bottom of the screen
     /// </summary>
-    /// <param name="message"></param>
+    /// <param name="message">The message to display.</param>
     protected void SetErrorMessage(string message)
     {
-        var valueMesage = new StatusValueDataMessage(new StatusMessage(message, StatusType.Error));
-        Messenger.Send(valueMesage);
+        Messenger.SendError(message);
     }
 }
