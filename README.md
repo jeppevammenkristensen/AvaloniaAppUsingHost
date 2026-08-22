@@ -53,6 +53,14 @@ The template creates an application where `Microsoft.Extensions.Hosting` is used
 
 ### Key Features
 
+#### Included Examples
+
+The generated application starts with an empty workspace where you can launch any of the included examples from the workspace or the **File** menu:
+
+- **Primary screen**: Demonstrates the standard `ScreenPage` lifecycle and `CanClose` behavior
+- **Validation**: Demonstrates data-annotation validation with CommunityToolkit.Mvvm's `ObservableValidator`
+- **Tree view**: Demonstrates hierarchical data, resource-backed icons, selection, and a resizable details pane
+
 #### ViewModel and View Setup
 
 This solution provides a mechanism to hook up Views and ViewModels so that:
@@ -68,24 +76,37 @@ This coupling generates DataTemplates for binding in XAML. For example, given a 
 
 This also works with TabControl where a ViewModel can be bound to the SelectedItem property.
 
-The `RegisterViews` method in `App.axaml.cs` handles this. The `AddViewModelAndRegisterView` extension method registers the ViewModel and couples it with the View to be added to the DataTemplates collection.
+The `RegisterViews` method in `App.axaml.cs` handles this. The `AddViewModelAndRegisterView` extension method registers the ViewModel and couples it with the View to be added to the DataTemplates collection. Registered ViewModels can derive from any `ObservableObject` type; regular screens normally derive from `ScreenPage`, while validation screens can derive from `ValidatingScreenPage`.
 
 #### Screen Pages and Lifecycle Management
 
-The template includes a `ScreenPage` base class that extends `ViewModelBase` with:
+Navigation uses the `IScreenPage` contract, allowing screens with different ViewModel base classes to share the same tab lifecycle. The template provides:
+
+- **ScreenPage**: The standard `ViewModelBase` implementation with status-message helpers
+- **ValidatingScreenPage**: An `ObservableValidator` implementation for screens that use data-annotation validation
+
+Both implementations provide:
 
 - **Title Property**: Displays in the tab view
 - **CanClose Property**: Signals if the current screen can be closed
 - **OnActivatedAsync()**: Override to perform operations when a screen is activated
 - **CloseAsync()**: Override to perform cleanup operations before the screen is closed
-- **Status Messages**: Support for submitting status messages displayed at the bottom of the screen
+
+`MainWindowViewModel` stores and displays screens as `IScreenPage` instances.
+
+#### Tab Navigation and Empty Workspace
+
+After the startup task completes, the application displays an empty workspace instead of opening a tab automatically. Screens can be launched from the workspace or the **File** menu. Open tabs include a close button and a **Close** context-menu command, both of which respect the screen's `CanClose` value. Closing the final tab returns to the empty workspace.
 
 #### Long-Running Tasks
 
 Infrastructure for handling asynchronous operations:
 
 - **BaseProgressReportingTask**: Base class for long-running operations with progress reporting
-- **StatusDataMessage** and **ProgressDataMessage**: Messaging support for status and progress updates
+- **StartupTask**: Example cancellable startup operation with status and progress reporting
+- **StatusValueDataMessage** and **ProgressDataMessage**: Messaging support for status and progress updates
+- **StatusMessage** and **StatusType**: Information, error, and success status presentation
+- **MessengerExtensions**: `SendInformation`, `SendError`, and `SendSuccess` helpers
 - Integrated with the MVVM Community Toolkit Messenger pattern
 
 #### Global Error Handling
@@ -112,7 +133,7 @@ The generated solution ships with `AGENTS.md` and `CLAUDE.md` so AI coding assis
 
 > Create a new view called `SettingsPage` with a matching view model, and register them in `App.axaml.cs`.
 
-The assistant will scaffold `Views/SettingsPage.axaml` (+ `.axaml.cs`), `ViewModels/SettingsPageViewModel.cs` deriving from `ScreenPage`, and add `AddViewModelAndRegisterView<SettingsPageViewModel, SettingsPage>(...)` to `RegisterViews`.
+The assistant will scaffold `Views/SettingsPage.axaml` (+ `.axaml.cs`), `ViewModels/SettingsPageViewModel.cs` deriving from `ScreenPage`, and add `AddViewModelAndRegisterView<SettingsPageViewModel, SettingsPage>(...)` to `RegisterViews`. For a data-annotation form, ask it to derive the ViewModel from `ValidatingScreenPage` instead.
 
 ### Add a menu item that launches it
 
