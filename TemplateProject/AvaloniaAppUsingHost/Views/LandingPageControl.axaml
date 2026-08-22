@@ -7,7 +7,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaAppUsingHost.Views.LandingPageControl">
     <StackPanel Spacing="14">
-        <TextBlock Classes="Header" Text="{Binding Title}" />
+        <TextBlock Classes="Header"
+                   Text="{Binding Title}" />
         <TextBlock Classes="Subtitle" Text="Welcome — configure your session below." />
         <CheckBox IsChecked="{Binding PreventClose}" Content="Prevent close" />
     </StackPanel>

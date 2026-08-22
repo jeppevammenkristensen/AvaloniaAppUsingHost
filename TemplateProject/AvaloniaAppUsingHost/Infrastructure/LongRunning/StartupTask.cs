@@ -4,12 +4,12 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace AvaloniaAppUsingHost.Infrastructure.LongRunning;
 
-// NOTE: This is a dummy task to demonstrate a long-running operation that reports progress and status.
-public class DummyTask(IMessenger messenger) : BaseProgressReportingTask(messenger)
+// NOTE: This is a start up task to demonstrate a long-running operation that reports progress and status.
+public class StartupTask(IMessenger messenger) : BaseProgressReportingTask(messenger)
 {
     public override async Task ExecuteTask(CancellationToken? token)
     {
-        ReportStatus("Starting engines... (DummyTask)");
+        ReportStatus("Starting");
 
         for (var i = 0; i <= 100; i += 10)
         {
@@ -19,6 +19,6 @@ public class DummyTask(IMessenger messenger) : BaseProgressReportingTask(messeng
             await Task.Delay(i, token ?? CancellationToken.None);
         }
 
-        ReportStatus("Engines started");
+        ReportStatus("Started");
     }
 }

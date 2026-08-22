@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AvaloniaAppUsingHost.Infrastructure;
 using AvaloniaAppUsingHost.Infrastructure.LongRunning;
+using AvaloniaAppUsingHost.ViewModels.TreeView;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -67,7 +68,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         OnActivated(); // hooks up implemented IRecipient
 
         CurrentProgress = 0;
-        var longRunningTask = new DummyTask(Messenger);
+        var longRunningTask = new StartupTask(Messenger);
         await longRunningTask.ExecuteTask(token);
         Loaded = true;
         await LaunchPrimaryCommand.ExecuteAsync(null);
@@ -101,6 +102,16 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     private async Task LaunchValidationExample()
     {
         var screen = _locator.GetRequiredService<ValidationExamplePageViewModel>();
+        await Launch(screen);
+    }
+
+    /// <summary>
+    /// Launches the tree-view example in a new tab.
+    /// </summary>
+    [RelayCommand]
+    private async Task LaunchTreeView()
+    {
+        var screen = _locator.GetRequiredService<TreeViewPageViewModel>();
         await Launch(screen);
     }
 

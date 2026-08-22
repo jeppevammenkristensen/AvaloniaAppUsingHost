@@ -7,7 +7,9 @@ using Avalonia.Markup.Xaml;
 using AvaloniaAppUsingHost.Infrastructure;
 using AvaloniaAppUsingHost.Infrastructure.LongRunning;
 using AvaloniaAppUsingHost.ViewModels;
+using AvaloniaAppUsingHost.ViewModels.TreeView;
 using AvaloniaAppUsingHost.Views;
+using AvaloniaAppUsingHost.Views.TreeView;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -134,6 +136,7 @@ public class App : Application
             .AddViewModelAndRegisterView<MainWindowViewModel, MainWindow>(ViewModelScope.Singleton)
             .AddViewModelAndRegisterView<LandingPageControlViewModel, LandingPageControl>(ViewModelScope.Transient)
             .AddViewModelAndRegisterView<ValidationExamplePageViewModel, ValidationExamplePage>(
-                ViewModelScope.Transient);
+                ViewModelScope.Transient)
+            .AddViewModelAndRegisterView<TreeViewPageViewModel, TreeViewPage>(ViewModelScope.Transient);
     }
 }

@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://AvaloniaAppUsingHost/Styles/Theme.axaml" />
+                <ResourceInclude Source="avares://AvaloniaAppUsingHost/Styles/TreeIcons.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
