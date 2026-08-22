@@ -35,7 +35,7 @@
 
         <TabControl
             Name="TabControl"
-            IsVisible="{Binding Loaded}"
+            IsVisible="{Binding DisplayPanel}"
             Grid.Row="1"
             VerticalAlignment="Stretch"
             ItemsSource="{Binding Screens}"
@@ -69,6 +69,21 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding DisplayNoScreens}"
+                    Orientation="Horizontal"
+                    Spacing="8">
+            <Button Classes="Accent"
+                    Command="{Binding LaunchPrimaryCommand}"
+                    Content="Open Primary" />
+            <Button Command="{Binding LaunchValidationExampleCommand}"
+                    Content="Open Validation Example" />
+            <Button Command="{Binding LaunchTreeViewCommand}"
+                    Content="Open Tree View" />
+        </StackPanel>
 
         <Border Grid.Row="2" Classes.StatusBar="{Binding DisplayInfo}" Classes.StatusBarRed="{Binding DisplayInfoError}" Classes.StatusBarSuccess="{Binding DisplaySuccess}">
             <TextBlock Text="{Binding Status}" />

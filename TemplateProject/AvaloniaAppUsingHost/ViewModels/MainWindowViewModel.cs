@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     {
         _locator = locator;
         Screens = [];
+        Screens.CollectionChanged += ScreensCollectionChanged;
         Status = string.Empty;
         Title = configuration["Title"] ?? "No title defined";
     }
@@ -38,7 +40,10 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     [ObservableProperty]
     public partial double CurrentProgress { get; set; }
 
-    [ObservableProperty] public partial bool Loaded { get; set; }
+    [NotifyPropertyChangedFor(nameof(DisplayPanel))]
+    [NotifyPropertyChangedFor(nameof(DisplayNoScreens))]
+    [ObservableProperty]
+    public partial bool Loaded { get; set; }
     [ObservableProperty] public partial string Title { get; set; }
 
     [NotifyPropertyChangedFor(nameof(DisplayInfo))]
@@ -50,6 +55,16 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     public bool DisplayInfo => StatusType == StatusType.Info;
     public bool DisplayInfoError => StatusType == StatusType.Error;
     public bool DisplaySuccess => StatusType == StatusType.Success;
+
+    /// <summary>
+    /// Gets whether one or more screens are open and should be displayed in the tab panel.
+    /// </summary>
+    public bool DisplayPanel => Loaded && Screens.Count > 0;
+
+    /// <summary>
+    /// Gets whether the no-screen action panel should be displayed.
+    /// </summary>
+    public bool DisplayNoScreens => Loaded && Screens.Count == 0;
 
     public void Receive(ProgressDataMessage message)
     {
@@ -71,7 +86,6 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
         var longRunningTask = new StartupTask(Messenger);
         await longRunningTask.ExecuteTask(token);
         Loaded = true;
-        await LaunchPrimaryCommand.ExecuteAsync(null);
     }
 
 
@@ -125,6 +139,15 @@ public partial class MainWindowViewModel : ViewModelBase, IRecipient<ProgressDat
     private void ScreenPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(Screen.CanClose)) CloseCommand.NotifyCanExecuteChanged();
+    }
+
+    /// <summary>
+    /// Updates the visible panel when screens are opened or closed.
+    /// </summary>
+    private void ScreensCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        OnPropertyChanged(nameof(DisplayPanel));
+        OnPropertyChanged(nameof(DisplayNoScreens));
     }
 
     private async Task Launch(IScreenPage screenPage)
