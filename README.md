@@ -140,3 +140,7 @@ The assistant will scaffold `Views/SettingsPage.axaml` (+ `.axaml.cs`), `ViewMod
 > Add a menu item under `File` in `MainWindow` that launches the `SettingsPageViewModel` as a new tab.
 
 The assistant will add a `<MenuItem>` to `MainWindow.axaml` and a `[RelayCommand]`-decorated method on `MainWindowViewModel` that resolves the view model via `_locator` and calls `Launch(...)`.
+
+### Example projects using the template
+
+- https://github.com/jeppevammenkristensen/DacPac_Viewer An UI for opening Dacpac files for analysis. Using Velopack for installation
