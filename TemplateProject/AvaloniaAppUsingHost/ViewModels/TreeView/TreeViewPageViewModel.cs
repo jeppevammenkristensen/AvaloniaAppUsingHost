@@ -13,7 +13,7 @@ public sealed partial class TreeViewPageViewModel : ScreenPage
     /// <summary>
     /// Gets the root nodes displayed by the tree.
     /// </summary>
-    public ObservableCollection<TreeNodeViewModel> Nodes { get; } =
+    public ObservableCollection<ITreeNode> Nodes { get; } =
     [
         new TreeNodeViewModel("Projects", "Folder",
         [
