@@ -38,4 +38,10 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\TreeView\TreeViewPage.axaml.cs">
+        <DependentUpon>TreeViewPage.axaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>

@@ -45,11 +45,8 @@
         <GradientStop Color="#1A1530" Offset="1.0" />
     </LinearGradientBrush>
 
-    <!-- Accent gradient -->
-    <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0%,0%" EndPoint="100%,0%">
-        <GradientStop Color="#7C5CFF" Offset="0.0" />
-        <GradientStop Color="#22D3EE" Offset="1.0" />
-    </LinearGradientBrush>
+    <!-- Accent brush retained under the existing resource key for compatible control styles. -->
+    <SolidColorBrush x:Key="AccentGradientBrush" Color="{StaticResource AccentColor}" />
 
     <!-- Status bar -->
     <LinearGradientBrush x:Key="StatusBarBrush" StartPoint="0%,0%" EndPoint="100%,0%">

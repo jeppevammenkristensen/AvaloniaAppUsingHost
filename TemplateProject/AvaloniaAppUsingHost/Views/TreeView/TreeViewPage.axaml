@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:AvaloniaAppUsingHost.Converters"
+             xmlns:viewModel="clr-namespace:AvaloniaAppUsingHost.ViewModels.TreeView"
+             x:Class="AvaloniaAppUsingHost.Views.TreeView.TreeViewPage"
+             x:DataType="viewModel:TreeViewPageViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450">
+    <UserControl.Resources>
+        <converters:TreeItemConverter x:Key="TreeItemConverter" />
+    </UserControl.Resources>
+    <Grid ColumnDefinitions="*,Auto,*">
+        <TreeView Grid.Column="0"
+                  ItemsSource="{Binding Nodes}"
+                  SelectedItem="{Binding SelectedNode, Mode=TwoWay}">
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate x:DataType="viewModel:TreeNodeViewModel"
+                                  ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Data="{Binding IconId, Converter={StaticResource TreeItemConverter}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                    </StackPanel>
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <GridSplitter Grid.Column="1"
+                      Width="4"
+                      ResizeDirection="Columns"
+                      ToolTip.Tip="Drag to resize the tree and detail panes." />
+
+        <Grid Grid.Column="2" RowDefinitions="Auto,*" Margin="16,0,0,0">
+            <TextBlock FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource TextPrimaryBrush}"
+                       Text="{Binding SelectedNode.Name, TargetNullValue=Select a tree item}" />
+        </Grid>
+    </Grid>
+</UserControl>
