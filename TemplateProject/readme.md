@@ -11,7 +11,7 @@ An Avalonia desktop app wired up with `Microsoft.Extensions.Hosting` so you get 
 
 ## Tooling
 
-`AGENTS.md` and `CLAUDE.md` ship with the project so AI coding assistants follow the conventions above. A few short prompts that work well:
+`AGENTS.md` ship with the project so AI coding assistants follow the conventions above. A few short prompts that work well:
 
 ### Create a view + view model
 
