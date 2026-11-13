@@ -19,7 +19,7 @@ using TruePath.TestableIO.System.IO;
 
 var app = new CommandApp<RunCommand>()
     .WithDescription("Validate a packed Avalonia template and build its selected framework variants.");
-app.Configure(config => config.UseAssemblyInformationalVersion());
+app.Configure(config => config.UseAssemblyInformationalVersion().PropagateExceptions());
 return await app.RunAsync(args);
 
 /// <summary>Checks packed template metadata and builds generated applications in an isolated workspace.</summary>
@@ -31,14 +31,14 @@ public sealed class RunCommand : AsyncCommand<RunCommand.Settings>
     public RunCommand() : this(new FileSystem()) { }
 
     /// <summary>Creates the command with an injectable file system.</summary>
-    public RunCommand(IFileSystem fileSystem) => this.fileSystem = fileSystem;
+    private RunCommand(IFileSystem fileSystem) => this.fileSystem = fileSystem;
 
     /// <summary>Validates the package and cleans up temporary output, including when a check fails.</summary>
     public override async Task<int> ExecuteAsync(
         CommandContext context, Settings settings, CancellationToken cancellationToken)
     {
         var work = Environment.SpecialFolder.LocalApplicationData.GetSpecialFolder()
-                   / "Temp" / "opencode" / $"avalonia-template-{Guid.NewGuid():N}";
+                   / "Temp" / "Avalonia" / $"avalonia-template-{Guid.NewGuid():N}";
         var hive = work / "hive";
         work.CreateDirectory(fileSystem);
         try
@@ -50,7 +50,7 @@ public sealed class RunCommand : AsyncCommand<RunCommand.Settings>
             var defaultOutput = work / "default";
             await Generate(hive, defaultOutput, "DefaultApp")
                 .RunAsync(token: cancellationToken);
-            AssertProject(defaultOutput, "DefaultApp", "net11.0");
+            AssertProject(defaultOutput, "DefaultApp", "net10.0");
 
             var invalid = await Generate(hive, work / "invalid", "InvalidApp", "net9.0")
                 .WithExitCodeHandler(_ => true)
@@ -69,10 +69,10 @@ public sealed class RunCommand : AsyncCommand<RunCommand.Settings>
                 AssertProject(output, name, target);
 
                 // Pin the child process, not this validator, to the requested SDK.
-                (output / "global.json").WriteAllText(JsonSerializer.Serialize(new
+                await (output / "global.json").WriteAllTextAsync(JsonSerializer.Serialize(new
                 {
                     sdk = new { version = sdk, rollForward = "disable", allowPrerelease = false }
-                }), fileSystem);
+                }), cancellationToken, fileSystem);
                 foreach (var configuration in new[] { "Debug", "Release" })
                 {
                     await SimpleExecRunner.Init("dotnet")
@@ -103,8 +103,8 @@ public sealed class RunCommand : AsyncCommand<RunCommand.Settings>
         Require(root.GetProperty("primaryOutputs")[0].GetProperty("path").GetString()
                 == "AvaloniaAppUsingHost.slnx", "Primary output must be the .slnx solution.");
         var framework = root.GetProperty("symbols").GetProperty("Framework");
-        Require(framework.GetProperty("defaultValue").GetString() == "net11.0",
-            "The default framework must be net11.0.");
+        Require(framework.GetProperty("defaultValue").GetString() == "net10.0",
+            "The default framework must be net10.0.");
         var choices = framework.GetProperty("choices").EnumerateArray()
             .Select(choice => choice.GetProperty("choice").GetString())
             .Order(StringComparer.Ordinal);
@@ -164,7 +164,7 @@ public sealed class RunCommand : AsyncCommand<RunCommand.Settings>
     public sealed class Settings : ExtendedCommandSettings
     {
         /// <summary>Gets or sets the packed template to validate.</summary>
-        [CommandOption("--package-path <PATH>")]
+        [CommandArgument(0, "<Path>")]
         [Description("Path to the template .nupkg, relative to the current working directory.")]
         public string PackagePath { get; set; } = "";
 

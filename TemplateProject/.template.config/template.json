@@ -17,7 +17,7 @@
       "type": "parameter",
       "datatype": "choice",
       "description": "The target framework for the generated application.",
-      "defaultValue": "net11.0",
+      "defaultValue": "net10.0",
       "replaces": "net10.0",
       "choices": [
         {
