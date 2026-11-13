@@ -12,7 +12,7 @@
     <tags>avalonia template mvvm desktop</tags>
     <repository type="git" url="https://github.com/jeppevammenkristensen/AvaloniaAppUsingHost" />
     <releaseNotes>
-      - Added a Framework option for .NET 10 and .NET 11 (default), with matching Microsoft.Extensions.Hosting versions.
+      - Added a Framework option for .NET 10 (default) and .NET 11, with matching Microsoft.Extensions.Hosting versions.
       - Fixed the template primary output to reference the generated .slnx solution.      
     </releaseNotes>
     <readme>docs/readme.md</readme>

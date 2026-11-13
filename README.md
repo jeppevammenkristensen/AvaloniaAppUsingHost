@@ -38,10 +38,11 @@ You can use `-n` to give it a different name than the folder from which this com
 
 ### Target framework
 
-The template supports .NET 10 and .NET 11 (the default):
+The template defaults to .NET 10 (`net10.0`). Pass `--Framework net11.0` to
+target .NET 11 instead:
 
 ```powershell
-dotnet new avalonia-host -n MyNet10App --Framework net10.0
+dotnet new avalonia-host -n MyNet10App
 dotnet new avalonia-host -n MyNet11App --Framework net11.0
 ```
 
