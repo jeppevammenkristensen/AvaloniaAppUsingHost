@@ -2,6 +2,16 @@
 
 An Avalonia desktop app wired up with `Microsoft.Extensions.Hosting` so you get dependency injection, configuration, and logging from the start.
 
+## Build and run
+
+Install the SDK and runtime matching the target framework in the application's
+project file. Open the `.slnx` solution in Rider or Visual Studio, or run:
+
+```powershell
+dotnet build
+dotnet run --project AvaloniaAppUsingHost
+```
+
 ## What happens on startup
 
 1. `Program.Main` builds the Avalonia `AppBuilder` and registers global exception handlers.

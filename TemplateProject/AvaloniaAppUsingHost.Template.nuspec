@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AvaloniaAppUsingHost.Template</id>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
     <authors>Jeppe Roi Kristensen</authors>
     <owners>Jeppe Roi Kristensen</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -12,11 +12,8 @@
     <tags>avalonia template mvvm desktop</tags>
     <repository type="git" url="https://github.com/jeppevammenkristensen/AvaloniaAppUsingHost" />
     <releaseNotes>
-      - Added validation and hierarchical TreeView examples.
-      - Introduced IScreenPage and ValidatingScreenPage for flexible screen lifecycles and data-annotation validation.
-      - Added an empty workspace launcher and improved tab navigation with close buttons.
-      - Added information, error, and success status messaging helpers.
-      - Refined startup task progress reporting and application styling.
+      - Added a Framework option for .NET 10 and .NET 11 (default), with matching Microsoft.Extensions.Hosting versions.
+      - Fixed the template primary output to reference the generated .slnx solution.      
     </releaseNotes>
     <readme>docs/readme.md</readme>
     <packageTypes>

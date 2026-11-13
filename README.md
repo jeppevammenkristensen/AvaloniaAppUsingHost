@@ -36,6 +36,50 @@ dotnet new avalonia-host -o OutputFolder
 
 You can use `-n` to give it a different name than the folder from which this command is called.
 
+### Target framework
+
+The template supports .NET 10 and .NET 11 (the default):
+
+```powershell
+dotnet new avalonia-host -n MyNet10App --Framework net10.0
+dotnet new avalonia-host -n MyNet11App --Framework net11.0
+```
+
+Install the .NET 10 SDK for the .NET 10 variant, or the .NET 11 SDK for the
+.NET 11 variant. Running a framework-dependent application also requires the
+corresponding runtime. Both choices generate a single-target application with a
+`.slnx` solution. Microsoft.Extensions.Hosting is 10.0.15 for .NET 10 and 11.0.0
+for .NET 11; the remaining dependencies are shared.
+
+### Package and validate a release
+
+From the repository root, pack without publishing:
+
+```powershell
+nuget pack ./TemplateProject/AvaloniaAppUsingHost.Template.nuspec -OutputDirectory ./artifacts
+```
+
+With both SDKs installed, validate the packed template:
+
+```powershell
+dotnet run ./Scripts/Test-Template.cs -- --package-path ./artifacts/AvaloniaAppUsingHost.Template.4.1.0.nupkg
+```
+
+This checks template metadata, default selection, rejection of an unsupported
+framework, generated framework/Hosting versions, and Debug/Release builds for both
+variants. It uses an isolated template hive and temporary output, without modifying
+your installed templates. Each build is pinned to the corresponding SDK major
+version. On a machine or CI job with only SDK 10 installed, run the same command
+with `--framework net10.0`; use `--framework net11.0` for an SDK 11-only job.
+The validator is a FileBasedApp.Toolkit file-based app and requires SDK 10 or later.
+Package paths are resolved relative to the current working directory.
+Run both jobs before releasing, and manually smoke-test application startup on
+supported desktop platforms.
+
+After validation, publish the package separately using your normal NuGet release
+process. `Scripts/build.cs` packs **and pushes**, so do not use it for a pack-only
+check.
+
 *IMPORTANT* Please avoid naming in -o like Foo-Bar as it will generate uncompilable solution. The fix is
 
 - Rename the path in the solution file from Foo_Bar to Foo-Bar

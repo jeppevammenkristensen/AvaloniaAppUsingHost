@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-            <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -23,7 +23,7 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.15" />
         <PackageReference Include="Xaml.Behaviors.Avalonia" Version="12.1.5" />
         <!-- Pin transitive dependency to fix GHSA-xrw6-gwf8-vvr9 (via Avalonia.FreeDesktop) -->
         <PackageReference Include="Tmds.DBus.Protocol" Version="0.95.2" />
